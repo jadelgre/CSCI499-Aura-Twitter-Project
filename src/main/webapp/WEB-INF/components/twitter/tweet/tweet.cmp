@@ -1,5 +1,18 @@
 <aura:component>
 	<aura:attribute type="String" name="tweetBody" default="defaultvalue"/>
-	<ui:outputText value="{!v.tweetBody}"/>
-	<br></br>
+	<aura:attribute type="String" name="tweetSender" />
+	<aura:attribute type="String" name="tweetTimestamp" />
+	<div aura:id="tweet">
+		<div class="tweetBody">
+			<div class="tweetHeader">
+				<div class="tweetUser">
+					<ui:outputText value="{!v.tweetSender}" />
+				</div>
+				<div class="tweetTimestamp">
+					<ui:outputText value="{!v.tweetTimestamp}" />
+				</div>
+			</div>
+			<ui:outputText value="{!v.tweetBody}" />
+		</div>
+	</div>
 </aura:component>

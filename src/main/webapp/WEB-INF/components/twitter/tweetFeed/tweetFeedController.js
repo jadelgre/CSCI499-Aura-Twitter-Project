@@ -1,12 +1,13 @@
 ({
 	receiveMessage : function(component, event, helper) {
 		var messageText = event.getParam("text");
-		console.log("received a Message: " + messageText);
-		var appendTweet = function(newTweet) {
-			console.log('created tweet');
-		}
+
+		// create a new tweet component
 		var newTweet = $A.createComponent("twitter:tweet", ({
-			"tweetBody" : messageText
+			// set component attributes
+			"tweetBody" : messageText,
+			"tweetSender" : "User",
+			"tweetTimestamp" : helper.getTimestamp()
 		}), function(newTweet) {
 			var body = component.get("v.body");
 			body.push(newTweet);
@@ -14,9 +15,5 @@
 			console.log('tweet added to body');
 		});
 		
-	},
-
-	createTweet : function(controller, event, helper) {
-		console.log('created new tweet');
 	}
 })

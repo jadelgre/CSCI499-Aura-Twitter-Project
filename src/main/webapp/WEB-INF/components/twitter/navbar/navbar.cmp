@@ -1,0 +1,4 @@
+<aura:component>
+	<h1>Twitter-ish</h1>
+	<hr></hr>
+</aura:component>

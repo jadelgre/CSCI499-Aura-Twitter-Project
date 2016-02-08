@@ -1,3 +1,5 @@
 <aura:application>
-hello web, from the Aura sample app twitter
+	<twitter:navbar />
+	<twitter:statusbar />
+	<twitter:tweetFeed />
 </aura:application>

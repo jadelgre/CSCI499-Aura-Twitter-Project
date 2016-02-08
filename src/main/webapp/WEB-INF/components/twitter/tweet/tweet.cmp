@@ -1,0 +1,5 @@
+<aura:component>
+	<aura:attribute type="String" name="tweetBody" default="defaultvalue"/>
+	<ui:outputText value="{!v.tweetBody}"/>
+	<br></br>
+</aura:component>

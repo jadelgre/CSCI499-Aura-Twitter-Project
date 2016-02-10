@@ -1,7 +1,14 @@
 .THIS .input {
 	height: 80px !important;
 	width: 600px !important;
-	margin-left: auto;
-	margin-right: auto;
+	font-size: 1.2em;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+.THIS .inputSubmit {
+	margin-right: auto !important;
+	margin-left: auto !important;
+	background-color: cyan !important;
 }
 

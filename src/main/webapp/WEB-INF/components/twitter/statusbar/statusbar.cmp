@@ -1,4 +1,8 @@
 <aura:component>
-	<ui:inputText aura:id="statusMessage" label="Message: " class="field" placeholder="What's on your mind?" />
-	<ui:button label="Submit" press="{!c.sendTweet}" />
+	<div aura:id="statusBar">
+		<div class="input">
+			<ui:inputText aura:id="statusMessage" class="field" placeholder="What's on your mind?" />
+			<ui:button label="Submit" press="{!c.sendTweet}" class="inputSubmit"/>
+		</div>
+	</div>
 </aura:component>

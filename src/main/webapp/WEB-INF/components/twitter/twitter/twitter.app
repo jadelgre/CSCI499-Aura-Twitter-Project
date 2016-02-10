@@ -1,5 +1,10 @@
 <aura:application>
-	<twitter:navbar />
-	<twitter:statusbar />
-	<twitter:tweetFeed />
+	<div aura:id="body">
+		<div class="appBody">
+			<twitter:navbar />
+			<twitter:statusbar />
+			<br></br>
+			<twitter:tweetFeed />
+		</div>
+	</div>
 </aura:application>

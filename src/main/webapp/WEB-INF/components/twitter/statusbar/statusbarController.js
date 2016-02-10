@@ -1,15 +1,21 @@
 ({
 	sendTweet : function(component, event, helper) {
-        var text = component.find("statusMessage").get("v.value");
+        var status = component.find("statusMessage").get("v.value");
 
-       	if(typeof text == 'undefined' || text == "" || text == null) {
+        // make sure that there is at least some kind of text
+       	if(typeof status == 'undefined' || status == "" || status == null) {
        		return;
        	}
 
+       	// create a tweet event, set the text to user's input, fire it
        	var tweetEvent = $A.get("e.twitter:tweetMessageEvent");
        	tweetEvent.setParams({
-       		"text" : text
+       		"text" : status
        	});
        	tweetEvent.fire();
+
+       	//  TODO clear the text box
+       	//status.set("v.value", []);
+
    }
 })

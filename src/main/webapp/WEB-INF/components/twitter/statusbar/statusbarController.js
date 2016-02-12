@@ -15,7 +15,7 @@
        	tweetEvent.fire();
 
        	//  TODO clear the text box
-       	//status.set("v.value", []);
+        component.set("v.inputText", "");
 
    }
 })

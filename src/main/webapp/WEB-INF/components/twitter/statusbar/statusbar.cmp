@@ -1,8 +1,15 @@
 <aura:component>
+	<aura:attribute name="inputText" type="String" />
 	<div aura:id="statusBar">
 		<div class="input">
+			
+				<ui:inputText aura:id="statusMessage" class="field" placeholder="What's on your mind?" value="{!v.inputText}" />
+				<ui:button label="Submit" press="{!c.sendTweet}" class="inputSubmit"/>
+			
+			<!--
 			<ui:inputText aura:id="statusMessage" class="field" placeholder="What's on your mind?" />
 			<ui:button label="Submit" press="{!c.sendTweet}" class="inputSubmit"/>
+			-->
 		</div>
 	</div>
 </aura:component>

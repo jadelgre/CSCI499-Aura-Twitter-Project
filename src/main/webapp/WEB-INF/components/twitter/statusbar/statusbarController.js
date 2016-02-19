@@ -10,7 +10,7 @@
        	// create a tweet event, set the text to user's input, fire it
        	var tweetEvent = $A.get("e.twitter:tweetMessageEvent");
        	tweetEvent.setParams({
-       		"text" : status
+       		"text" : status,
        	});
        	tweetEvent.fire();
 

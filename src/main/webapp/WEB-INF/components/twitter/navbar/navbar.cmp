@@ -2,7 +2,6 @@
 	<div aura:id="navbar">
 		<div>
 			<h1>Twitter-ish</h1>
-			<hr></hr>
 		</div>
 
 	</div>

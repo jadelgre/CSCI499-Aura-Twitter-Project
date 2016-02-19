@@ -1,9 +1,36 @@
 <aura:component>
 	<aura:handler event="twitter:tweetMessageEvent" action="{!c.receiveMessage}" />
 	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:attribute name="tweetArray" type="Object[]" />
 	<div aura:id="feed" >
-		<div class="tweetFeed">
-    		{!v.body}
+		<div class="slds-feed">
+			<ul class="slds-feed__list">
+				<aura:iteration items="{!v.tweetArray}" var="tweet">
+					<li class="slds-feed__item">
+					  <div class="slds-media slds-comment slds-hint-parent">
+					    <div class="slds-media__figure">
+					      <div class="slds-avatar slds-avatar--circle slds-avatar--medium">
+					        <a href="javascript:void(0)" title="{!tweet.name}">
+					          <img src="{!tweet.imgUrl}" alt="{!tweet.name}" />
+					        </a>
+					      </div>
+					    </div>
+					    <div class="slds-media__body">
+					      <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+					        <p class="slds-truncate">
+					        	<a href="javascript:void(0)" title="{!tweet.name}">{!tweet.name}</a>
+					        </p>
+					      </div>
+					      <p class="slds-text-body--small"><a href="javascript:void(0)" title="Click for single-item view of this post">{!tweet.date}</a></p>
+					      <div class="slds-comment__content slds-text-longform">
+					        <p>{!tweet.message}</p>
+					      </div>
+			
+					      </div>
+				      </div>
+			      </li>
+				</aura:iteration>
+			</ul>
 		</div>
 	</div>
 </aura:component>

@@ -166,7 +166,7 @@ public class HomepageController {
 			prep.setInt(1, desiredUserInfo);
 			ResultSet queryResult = prep.executeQuery();
 
-			while (queryResult.next()) {
+			if (queryResult.next()) {
 				String userId = queryResult.getString("USERID");
 				String name = queryResult.getString("NAME");
 				// String message = queryResult.getString("MESSAGE");

@@ -18,5 +18,23 @@
 		var date = new Date();
 		var dateString = (date.getMonth()+1) + "/" + date.getDate() + "/" + date.getFullYear() + " " + date.getHours()+ ":" + date.getMinutes() + ":" + date.getSeconds();
 		return dateString;
+	},
+
+	createProfileModal : function(component, profileValues) {
+
+		$A.get('e.ui:createPanel').setParams({
+		    panelType: 'modal',
+		    visible: true,
+		    panelConfig: {
+		        title: profileValues['name'],
+		        body: "Bio: " + profileValues['summary'],
+		        flavor: 'myFlavor',
+		        //footer: "footer"
+		        },
+		        onCreate: function(panel){
+		            //do something
+		            console.log("modal created");
+		        }
+		    }).fire();
 	}
 })

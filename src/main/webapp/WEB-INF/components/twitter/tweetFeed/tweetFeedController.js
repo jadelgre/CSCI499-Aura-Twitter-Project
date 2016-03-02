@@ -148,7 +148,7 @@
         var action = component.get("c.getUserInfo");
 		action.setParams({
 			desiredUserInfo : profileId
-		})
+		});
 		action.setCallback(this, function(response) {
             if (response.getState() === "SUCCESS") {
                 console.log("Server responded in view user: ");
@@ -157,6 +157,8 @@
 
                 console.log(profileValues);
 
+
+                helper.createProfileModal(component, profileValues);
 
 				//var allTweets = component.get("v.tweetArray");
 				// response.getReturnValue().forEach( function(tweet) {
@@ -179,23 +181,23 @@
 
             }
         });
-
+		$A.enqueueAction(action);
 		
-        $A.enqueueAction(action);
-		$A.get('e.ui:createPanel').setParams({
-		    panelType: 'modal',
-		    visible: true,
-		    panelConfig: {
-		        title: 'deez nutz',
-		        body: "body",
-		        flavor: 'myFlavor',
-		        footer: "footer"
-		        },
-		        onCreate: function(panel){
-		            //do something
-		            console.log("modal created");
-		        }
-		    }).fire();
+  //       $A.enqueueAction(action);
+		// $A.get('e.ui:createPanel').setParams({
+		//     panelType: 'modal',
+		//     visible: true,
+		//     panelConfig: {
+		//         title: 'deez nutz',
+		//         body: "body",
+		//         flavor: 'myFlavor',
+		//         footer: "footer"
+		//         },
+		//         onCreate: function(panel){
+		//             //do something
+		//             console.log("modal created");
+		//         }
+		//     }).fire();
         
 	}
 

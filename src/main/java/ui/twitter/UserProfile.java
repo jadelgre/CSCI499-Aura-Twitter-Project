@@ -7,19 +7,17 @@ import java.sql.Date;
 import org.auraframework.util.json.Json;
 import org.auraframework.util.json.JsonSerializable;
 
-public class Tweet implements JsonSerializable {
+public class UserProfile implements JsonSerializable {
 	public String userId;
-	public String message;
 	public String name;
 	public String imageUrl;
-	public String date;
+	public String summary;
 	
-	public Tweet(String userId, String message, String name, String imageUrl, String date) {
+	public UserProfile(String userId, String name, String imageUrl, String summary) {
 		this.userId = userId;
-		this.message = message;
 		this.name = name;
 		this.imageUrl = imageUrl;
-		this.date = date;
+		this.summary = summary;
 	}
 
 	@Override
@@ -27,14 +25,13 @@ public class Tweet implements JsonSerializable {
 		arg0.writeMapBegin();
 		arg0.writeMapEntry("userId", userId);
 		arg0.writeMapEntry("name", name);
-		arg0.writeMapEntry("message", message);
 		arg0.writeMapEntry("imgUrl", imageUrl);
-		arg0.writeMapEntry("date", date);
+		arg0.writeMapEntry("summary", summary);
 		arg0.writeMapEnd();
 	}
 	
 	@Override
 	public String toString() {
-		return "userId=" + userId + ", name=" + name + ", message=" + message + ", imageUrl=" + imageUrl + ", date= " + date;
+		return "userId=" + userId + ", name=" + name + ", imageUrl=" + imageUrl + ", summary= " + summary;
 	}
 }

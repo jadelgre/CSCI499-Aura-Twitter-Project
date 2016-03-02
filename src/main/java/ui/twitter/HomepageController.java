@@ -155,4 +155,33 @@ public class HomepageController {
 		return allTweets;
 	}
 
+	@AuraEnabled
+	public UserProfile getUserInfo(@Key("desiredUserInfo") int desiredUserInfo) {
+		UserProfile profile = null;
+		
+		try {
+			Class.forName("org.h2.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+			PreparedStatement prep = conn.prepareStatement("SELECT * FROM userTable WHERE USERID = ?;");
+			prep.setInt(1, desiredUserInfo);
+			ResultSet queryResult = prep.executeQuery();
+
+			while (queryResult.next()) {
+				String userId = queryResult.getString("USERID");
+				String name = queryResult.getString("NAME");
+				// String message = queryResult.getString("MESSAGE");
+				String imgUrl = queryResult.getString("IMGURL");
+				String summary = queryResult.getString("SUMMARY");
+				// String date = queryResult.getString("DATE");
+				profile = new UserProfile(userId, name, imgUrl, summary);
+
+				// allTweets.add(new Tweet(userId, message, name, imgUrl, date)); // message, name, imgurl, date
+			}	
+			conn.close();
+		} catch (Exception e) {
+			throw new NullPointerException(e.getMessage());
+		}
+		return profile;
+	}
+
 }

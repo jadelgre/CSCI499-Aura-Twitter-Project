@@ -26,38 +26,6 @@
             }
         });
         $A.enqueueAction(action);
-
-
-  //       var myTweet = {};
-		// var action = component.get("c.getTweet");
-  //       action.setCallback(this, function(response) {
-  //           if (response.getState() === "SUCCESS") {
-  //               console.log("Server responded: ");
-  //               console.log(response.getReturnValue());
-
-  //               // add tweet to array to be displayed
-  //               var tweets = [response.getReturnValue()];
-  //       		component.set("v.tweetArray", tweets);
-  //           } else {
-  //           	var errors = response.getError();
-  //               if (errors) {
-  //                   if (errors[0] && errors[0].message) {
-  //                       console.log("Error message: " +
-  //                                errors[0].message);
-  //                   }
-  //               } else {
-  //                   console.log("Unknown error");
-  //               }
-
-  //           }
-  //       });
-  //       $A.enqueueAction(action);
-
-        // var tweets = [myTweet];
-        // component.set("v.tweetArray", tweets);
-        // console.log("name " + myTweet["name"]);
-
-		console.log('do init');	
 	},
 
 	receiveMessage : function(component, event, helper) {
@@ -79,10 +47,9 @@
 		});
         action.setCallback(this, function(response) {
             if (response.getState() === "SUCCESS") {
-                console.log("Server responded: ");
-                console.log(response.getReturnValue());
+                // console.log("Server responded: ");
+                // console.log(response.getReturnValue());
 
-                // add tweet to array to be displayed
             } else {
             	var errors = response.getError();
                 if (errors) {
@@ -101,19 +68,6 @@
 		allTweets.unshift(newTweet);
 
 		component.set("v.tweetArray", allTweets);
-
-		// create a new tweet component
-		// var newTweet = $A.createComponent("twitter:tweet", ({
-		// 	// set component attributes
-		// 	"message" : messageText,
-		// 	"name" : "User",
-		// 	"tweetTimestamp" : helper.getTimestamp()
-		// }), function(newTweet) {
-		// 	var body = component.get("v.body"); 
-		// 	body.unshift(newTweet); // prepend the tweet to the body
-		// 	component.set("v.body", body); // update the view with the updated body
-		// 	console.log('tweet added to body');
-		// });
 		
 	},
 
@@ -184,24 +138,65 @@
 
 	viewProfile : function(component, event, helper) {
 	 	var selectedItem = event.currentTarget;
-        var profileId = selectedItem.dataset.record;
+        var profileId = selectedItem.dataset.record; // get the value stored in corresponding data-record html attribute
+
+        var profileValues;
+
+        console.log("Clicked on profile of user " + profileId);
+
+        // query the DB to get user profile
+        var action = component.get("c.getUserInfo");
+		action.setParams({
+			desiredUserInfo : profileId
+		})
+		action.setCallback(this, function(response) {
+            if (response.getState() === "SUCCESS") {
+                console.log("Server responded in view user: ");
+
+                profileValues = response.getReturnValue();
+
+                console.log(profileValues);
 
 
+				//var allTweets = component.get("v.tweetArray");
+				// response.getReturnValue().forEach( function(tweet) {
+				// 	allTweets.unshift(tweet);
+				// });
+						
+				
+				//component.set("v.tweetArray", response.getReturnValue());
+                // add tweet to array to be displayed
+            } else {
+            	var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " +
+                                 errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
 
+            }
+        });
 
+		
+        $A.enqueueAction(action);
 		$A.get('e.ui:createPanel').setParams({
-	    panelType: 'modal',
-	    visible: true,
-	    panelConfig: {
-	        title: 'Modal Header',
-	        body: "body",
-	        flavor: 'myFlavor',
-	        footer: "footer"
-	        },
-	        onCreate: function(panel){
-	            //do something
-	        }
-	    }).fire();
+		    panelType: 'modal',
+		    visible: true,
+		    panelConfig: {
+		        title: 'deez nutz',
+		        body: "body",
+		        flavor: 'myFlavor',
+		        footer: "footer"
+		        },
+		        onCreate: function(panel){
+		            //do something
+		            console.log("modal created");
+		        }
+		    }).fire();
+        
 	}
 
 })

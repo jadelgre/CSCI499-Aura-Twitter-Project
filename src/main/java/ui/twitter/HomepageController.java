@@ -57,7 +57,7 @@ public class HomepageController {
 			String imgUrl = queryResult.getString("IMGURL");
 			String date = queryResult.getString("DATE");
 
-			tweet = new Tweet(message, name, imgUrl, date); // message, name, imgurl, date
+			tweet = new Tweet(userId, message, name, imgUrl, date); // message, name, imgurl, date
 		}
 		conn.close();
 
@@ -79,7 +79,7 @@ public class HomepageController {
 			String imgUrl = queryResult.getString("IMGURL");
 			String date = queryResult.getString("DATE");
 
-			tweet = new Tweet(message, name, imgUrl, date); // message, name, imgurl, date
+			tweet = new Tweet(userId, message, name, imgUrl, date); // message, name, imgurl, date
 		} else {
 			throw new NullPointerException("something went wrong trying to retrieve the latest tweet");
 		}
@@ -112,9 +112,8 @@ public class HomepageController {
 
 		Class.forName("org.h2.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
-		ResultSet queryResult = conn.prepareStatement("SELECT NAME, userTable.USERID, IMGURL, MESSAGE, DATE FROM tweetTable JOIN userTable on tweetTable.USERID = userTable.USERID ORDER BY DATE DESC LIMIT 1;").executeQuery();
+		ResultSet queryResult = conn.prepareStatement("SELECT NAME, userTable.USERID, IMGURL, MESSAGE, DATE FROM tweetTable JOIN userTable on tweetTable.USERID = userTable.USERID ORDER BY DATE DESC;").executeQuery();
 
-		Tweet tweet = null;
 		while (queryResult.next()) {
 			String userId = queryResult.getString("USERID");
 			String name = queryResult.getString("NAME");
@@ -122,8 +121,37 @@ public class HomepageController {
 			String imgUrl = queryResult.getString("IMGURL");
 			String date = queryResult.getString("DATE");
 
-			allTweets.add(new Tweet(message, name, imgUrl, date)); // message, name, imgurl, date
+			allTweets.add(new Tweet(userId, message, name, imgUrl, date)); // message, name, imgurl, date
 		}	
+
+		conn.close();
+		return allTweets;
+	}
+
+	@AuraEnabled
+	public ArrayList<Tweet> getFeedTweets(@Key("quantity") int quantity) throws Exception {
+		ArrayList<Tweet> allTweets = new ArrayList<Tweet>();
+
+		try {
+			Class.forName("org.h2.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+			PreparedStatement prep = conn.prepareStatement("SELECT NAME, userTable.USERID, IMGURL, MESSAGE, DATE FROM tweetTable JOIN userTable on tweetTable.USERID = userTable.USERID ORDER BY DATE DESC LIMIT ?;");
+			prep.setInt(1, quantity);
+			ResultSet queryResult = prep.executeQuery();
+
+			while (queryResult.next()) {
+				String userId = queryResult.getString("USERID");
+				String name = queryResult.getString("NAME");
+				String message = queryResult.getString("MESSAGE");
+				String imgUrl = queryResult.getString("IMGURL");
+				String date = queryResult.getString("DATE");
+
+				allTweets.add(new Tweet(userId, message, name, imgUrl, date)); // message, name, imgurl, date
+			}	
+			conn.close();
+		} catch (Exception e) {
+			throw new NullPointerException(e.getMessage());
+		}
 		return allTweets;
 	}
 

@@ -2,6 +2,7 @@
 	<aura:attribute name="inputText" type="String" />
 	<div aura:id="statusBar" class="slds-tile">
 		<ui:inputText aura:id="statusMessage" class="slds-input" placeholder="What's on your mind?" value="{!v.inputText}" />
+		<br></br>
 		<ui:button label="Submit" press="{!c.sendTweet}"/>
 	</div>
 </aura:component>

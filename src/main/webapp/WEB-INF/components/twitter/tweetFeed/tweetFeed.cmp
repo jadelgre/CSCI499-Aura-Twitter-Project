@@ -2,6 +2,9 @@
 	<aura:handler event="twitter:tweetMessageEvent" action="{!c.receiveMessage}" />
 	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 	<aura:attribute name="tweetArray" type="Object[]" />
+	<div>
+		<ui:button label="get last tweet" press="{!c.getLatestTweet}"/>
+	</div>
 	<div aura:id="feed" >
 		<div class="slds-feed">
 			<ul class="slds-feed__list">

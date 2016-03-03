@@ -22,19 +22,30 @@
 
 	createProfileModal : function(component, profileValues) {
 
-		$A.get('e.ui:createPanel').setParams({
-		    panelType: 'modal',
-		    visible: true,
-		    panelConfig: {
-		        title: profileValues['name'],
-		        body: "Bio: " + profileValues['summary'],
-		        flavor: 'myFlavor',
-		        //footer: "footer"
-		        },
-		        onCreate: function(panel){
-		            //do something
-		            console.log("modal created");
-		        }
-		    }).fire();
+		$A.createComponent(
+			"twitter.userProfile",
+			{
+				"userId" : profileValues["userId"],
+				"userName" : profileValues["name"],
+				"message" : profileValues["summary"]
+			}
+			, function (feed) {
+				console.log("created tweet feed in profile modal");
+
+				$A.get('e.ui:createPanel').setParams({
+				    panelType: 'modal',
+				    visible: true,
+				    panelConfig: {
+				        title: profileValues['name'],
+				        body: feed,
+				        flavor: 'myFlavor',
+				        //footer: "footer"
+				        },
+				        onCreate: function(panel){
+				            //do something
+				            console.log("modal created");
+				        }
+				    }).fire();
+			});
 	}
 })

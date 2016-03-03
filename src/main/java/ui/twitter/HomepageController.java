@@ -112,7 +112,11 @@ public class HomepageController {
 
 		Class.forName("org.h2.Driver");
 		Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
-		ResultSet queryResult = conn.prepareStatement("SELECT NAME, userTable.USERID, IMGURL, MESSAGE, DATE FROM tweetTable JOIN userTable on tweetTable.USERID = userTable.USERID ORDER BY DATE DESC;").executeQuery();
+		//ResultSet queryResult = conn.prepareStatement("SELECT NAME, userTable.USERID, IMGURL, MESSAGE, DATE FROM tweetTable JOIN userTable on tweetTable.USERID = userTable.USERID WHERE userTable.USERID = ? ORDER BY DATE DESC;").setInt(1, targetUserId).executeQuery();
+		PreparedStatement prep = conn.prepareStatement("SELECT NAME, userTable.USERID, IMGURL, MESSAGE, DATE FROM tweetTable JOIN userTable on tweetTable.USERID = userTable.USERID WHERE userTable.USERID = ? ORDER BY DATE DESC;");
+		prep.setInt(1, targetUserId);
+		ResultSet queryResult = prep.executeQuery();
+
 
 		while (queryResult.next()) {
 			String userId = queryResult.getString("USERID");

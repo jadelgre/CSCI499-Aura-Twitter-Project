@@ -157,17 +157,7 @@
 
                 console.log(profileValues);
 
-
                 helper.createProfileModal(component, profileValues);
-
-				//var allTweets = component.get("v.tweetArray");
-				// response.getReturnValue().forEach( function(tweet) {
-				// 	allTweets.unshift(tweet);
-				// });
-						
-				
-				//component.set("v.tweetArray", response.getReturnValue());
-                // add tweet to array to be displayed
             } else {
             	var errors = response.getError();
                 if (errors) {
@@ -182,22 +172,6 @@
             }
         });
 		$A.enqueueAction(action);
-		
-  //       $A.enqueueAction(action);
-		// $A.get('e.ui:createPanel').setParams({
-		//     panelType: 'modal',
-		//     visible: true,
-		//     panelConfig: {
-		//         title: 'deez nutz',
-		//         body: "body",
-		//         flavor: 'myFlavor',
-		//         footer: "footer"
-		//         },
-		//         onCreate: function(panel){
-		//             //do something
-		//             console.log("modal created");
-		//         }
-		//     }).fire();
         
 	}
 

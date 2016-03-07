@@ -54,19 +54,13 @@
     </filter>
 
     <filter-mapping>
-        <filter-name>AuraContextFilter</filter-name>
         <url-pattern>*.cmp</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>INCLUDE</dispatcher>
+        <filter-name>AuraRewriteFilter</filter-name>
     </filter-mapping>
 
     <filter-mapping>
-        <filter-name>AuraRewriteFilter</filter-name>
         <url-pattern>*.app</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>INCLUDE</dispatcher>
+        <filter-name>AuraRewriteFilter</filter-name>
     </filter-mapping>
 
 
@@ -80,7 +74,7 @@
         <filter-name>AuraContextFilter</filter-name>
         <url-pattern>/aura</url-pattern>
         <dispatcher>REQUEST</dispatcher>
-        <!-- <dispatcher>FORWARD</dispatcher> -->
+        <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
 
@@ -142,4 +136,5 @@
     </servlet-mapping>
 
 </web-app>
+
 

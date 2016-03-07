@@ -17,12 +17,12 @@ public class HomepageController {
 
 	static DatabasePoolService connectionPool;
 
-	@AuraEnabled
-	public String initialize() {
-		connectionPool = new DatabasePoolService();
+	// @AuraEnabled
+	// public String initialize() {
+	// 	connectionPool = new DatabasePoolService();
 
-		return "Apex initialization complete.";
-	}
+	// 	return "Apex initialization complete.";
+	// }
 	
     @AuraEnabled
     public static String getAppName(@Key("appKey") String importantInfo) {
@@ -138,7 +138,8 @@ public class HomepageController {
 
 		try {
 			Class.forName("org.h2.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+			//Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+			Connection conn = DatabasePoolService.get().getConnection();
 			PreparedStatement prep = conn.prepareStatement("SELECT NAME, userTable.USERID, IMGURL, MESSAGE, DATE FROM tweetTable JOIN userTable on tweetTable.USERID = userTable.USERID ORDER BY DATE DESC LIMIT ?;");
 			prep.setInt(1, quantity);
 			ResultSet queryResult = prep.executeQuery();

@@ -1,31 +1,6 @@
 ({
 	doInit : function(component, event, helper) {
-		var action = component.get("c.getFeedTweets");
-		action.setParams({
-			quantity : 20
-		})
-		action.setCallback(this, function(response) {
-            if (response.getState() === "SUCCESS") {
-                console.log("Server responded in init");
-                console.log(response.getReturnValue());
-				var allTweets = component.get("v.tweetArray");
-				
-				component.set("v.tweetArray", response.getReturnValue());
-                // add tweet to array to be displayed
-            } else {
-            	var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " +
-                                 errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
-                }
-
-            }
-        });
-        $A.enqueueAction(action);
+		helper.loadFeed(component, helper);
 	},
 
 	receiveMessage : function(component, event, helper) {
@@ -39,66 +14,40 @@
 			"date" : helper.getTimestamp()
 		};
 
-		// send tweet to database
-		var action = component.get("c.sendTweet");
-		action.setParams({
-			"message" : messageText,
-			"userId" : 0
-		});
-        action.setCallback(this, function(response) {
-            if (response.getState() === "SUCCESS") {
-                // console.log("Server responded: ");
-                // console.log(response.getReturnValue());
-
-            } else {
-            	var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " +
-                                 errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
-                }
-
-            }
-        });
-        $A.enqueueAction(action);
-
-		allTweets.unshift(newTweet);
-
-		component.set("v.tweetArray", allTweets);
+ 		// send it to the server controller to be stored in the database
+		helper.sendTweet(component, helper, messageText);
 		
+		// add that tweet object to the existing feed so we don't have to make another server call
+		allTweets.unshift(newTweet);
+		component.set("v.tweetArray", allTweets);
 	},
 
-	getLatestTweet : function(component, event, helper) {
-		var action = component.get("c.getLastTweet");
-		action.setCallback(this, function(response) {
-            if (response.getState() === "SUCCESS") {
-                console.log("Server responded in get lastest tweet: ");
-                console.log(response.getReturnValue());
-
-
+	// getLatestTweet : function(component, event, helper) {
+	// 	var action = component.get("c.getLastTweet");
+	// 	action.setCallback(this, function(response) {
+ //            if (response.getState() === "SUCCESS") {
+ //                console.log("Server responded in get lastest tweet: ");
+ //                console.log(response.getReturnValue());
                 
-				var allTweets = component.get("v.tweetArray");
-				allTweets.unshift(response.getReturnValue());
-				component.set("v.tweetArray", allTweets);
-                // add tweet to array to be displayed
-            } else {
-            	var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " +
-                                 errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
-                }
+	// 			var allTweets = component.get("v.tweetArray");
+	// 			allTweets.unshift(response.getReturnValue());
+	// 			component.set("v.tweetArray", allTweets);
+ //                // add tweet to array to be displayed
+ //            } else {
+ //            	var errors = response.getError();
+ //                if (errors) {
+ //                    if (errors[0] && errors[0].message) {
+ //                        console.log("Error message: " +
+ //                                 errors[0].message);
+ //                    }
+ //                } else {
+ //                    console.log("Unknown error");
+ //                }
 
-            }
-        });
-        $A.enqueueAction(action);
-	},
+ //            }
+ //        });
+ //        $A.enqueueAction(action);
+	// },
 
 	getAllTweetsByUser : function(component, event, helper) {
 		var action = component.get("c.getTweetsByUser");
@@ -139,10 +88,7 @@
 	viewProfile : function(component, event, helper) {
 	 	var selectedItem = event.currentTarget;
         var profileId = selectedItem.dataset.record; // get the value stored in corresponding data-record html attribute
-
         var profileValues;
-
-        console.log("Clicked on profile of user " + profileId);
 
         // query the DB to get user profile
         var action = component.get("c.getUserInfo");
@@ -151,24 +97,10 @@
 		});
 		action.setCallback(this, function(response) {
             if (response.getState() === "SUCCESS") {
-                console.log("Server responded in view user: ");
-
                 profileValues = response.getReturnValue();
-
-                console.log(profileValues);
-
-                helper.createProfileModal(component, profileValues);
+                helper.createProfileModal(component, profileValues); // create a new modal window
             } else {
-            	var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log("Error message: " +
-                                 errors[0].message);
-                    }
-                } else {
-                    console.log("Unknown error");
-                }
-
+            	helper.checkReturnForErrors(response, "viewProfile");
             }
         });
 		$A.enqueueAction(action);

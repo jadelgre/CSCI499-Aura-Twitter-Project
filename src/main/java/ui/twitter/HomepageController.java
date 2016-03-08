@@ -16,20 +16,13 @@ import org.auraframework.system.Annotations.Key;
 public class HomepageController {
 
 	static DatabasePoolService connectionPool;
-
-	// @AuraEnabled
-	// public String initialize() {
-	// 	connectionPool = new DatabasePoolService();
-
-	// 	return "Apex initialization complete.";
-	// }
 	
+	// Used for debugging to check that we can connect to the h2 database
     @AuraEnabled
     public static String getAppName(@Key("appKey") String importantInfo) {
     	String retVal = "";
     	try {
 			Class.forName("org.h2.Driver");
-			//Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", ""); // db name, username, pw
 			Connection conn = connectionPool.getConnection();
 			retVal = conn.getCatalog();
             conn.close();
@@ -42,11 +35,7 @@ public class HomepageController {
 	@AuraEnabled
 	public Tweet getTweet() throws Exception {
 		Class.forName("org.h2.Driver");
-		//Connection conn = connectionPool.getConnection();
-		Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", ""); // db name, username, pw
-		//boolean dropResult = conn.prepareStatement("DROP TABLE IF EXISTS tweetTable").execute();
-		//boolean createResult = conn.prepareStatement("CREATE TABLE tweetTable (USERID INT PRIMARY KEY, NAME VARCHAR(255), MESSAGE VARCHAR(255), MESSAGE VARCHAR(255), DATE TIMESTAMP)").execute();
-		//boolean insertResult = conn.prepareStatement("INSERT INTO testTable VALUES (1, 'hello')").execute();
+		Connection conn = DatabasePoolService.get().getConnection();
 		ResultSet queryResult = conn.prepareStatement("SELECT NAME, userTable.USERID, IMGURL, MESSAGE, DATE FROM tweetTable JOIN userTable on tweetTable.USERID = userTable.USERID").executeQuery();
 
 		Tweet tweet = null;
@@ -138,7 +127,6 @@ public class HomepageController {
 
 		try {
 			Class.forName("org.h2.Driver");
-			//Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
 			Connection conn = DatabasePoolService.get().getConnection();
 			PreparedStatement prep = conn.prepareStatement("SELECT NAME, userTable.USERID, IMGURL, MESSAGE, DATE FROM tweetTable JOIN userTable on tweetTable.USERID = userTable.USERID ORDER BY DATE DESC LIMIT ?;");
 			prep.setInt(1, quantity);
@@ -166,7 +154,7 @@ public class HomepageController {
 		
 		try {
 			Class.forName("org.h2.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+			Connection conn = DatabasePoolService.get().getConnection();
 			PreparedStatement prep = conn.prepareStatement("SELECT * FROM userTable WHERE USERID = ?;");
 			prep.setInt(1, desiredUserInfo);
 			ResultSet queryResult = prep.executeQuery();
@@ -188,5 +176,19 @@ public class HomepageController {
 		}
 		return profile;
 	}
+
+	// // Takes a result set object and returns the first tweet if it exists, null otherwise
+	// private Tweet getTweetFromResult(ResultSet result) {
+	// 	Tweet tweet = null;
+	// 	if(result.next()) {
+	// 		String userId = queryResult.getString("USERID");
+	// 		String name = queryResult.getString("NAME");
+	// 		String message = queryResult.getString("MESSAGE");
+	// 		String imgUrl = queryResult.getString("IMGURL");
+	// 		String date = queryResult.getString("DATE");
+	// 		tweet = new Tweet(userId, message, name, imgUrl, date);
+	// 	}
+	// 	return tweet;
+	// }
 
 }

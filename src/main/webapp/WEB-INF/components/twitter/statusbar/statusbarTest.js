@@ -27,9 +27,13 @@
 		//Overrides the suite level browsers tag.
 		browsers: [ '-FIREFOX'],
 		test: [ //A single function or a list of functions
-			function(component){
+			function(component, controller){
 			//Test something
 				console.log('in test case');
+				//var button = component.get("c.button");
+				controller.sendTweet(component);
+// 				$A.test.clickOrTouch(button, false,
+// false);
 				$A.test.assertTrue(true, 'This obviously should have passed.');
 			},
 			function(component){

@@ -1,8 +1,12 @@
 <aura:component>
 	<aura:attribute name="inputText" type="String" />
+	<aura:attribute name="errorText" type="String" default=""/>
 	<div aura:id="statusBar" class="slds-tile">
 		<ui:inputText aura:id="statusMessage" class="slds-input" placeholder="What's on your mind?" value="{!v.inputText}" />
 		<br></br>
-		<ui:button label="Submit" press="{!c.sendTweet}"/>
+		<ui:button aura:id="button" label="Submit" press="{!c.sendTweet}"/>
+		<aura:if isTrue="{! !empty(v.errorText)}">
+			<ui:outputText value="{!v.errorText}" label="Error:"/>
+		</aura:if>
 	</div>
 </aura:component>

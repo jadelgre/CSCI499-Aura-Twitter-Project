@@ -22,33 +22,6 @@
 		component.set("v.tweetArray", allTweets);
 	},
 
-	// getLatestTweet : function(component, event, helper) {
-	// 	var action = component.get("c.getLastTweet");
-	// 	action.setCallback(this, function(response) {
- //            if (response.getState() === "SUCCESS") {
- //                console.log("Server responded in get lastest tweet: ");
- //                console.log(response.getReturnValue());
-                
-	// 			var allTweets = component.get("v.tweetArray");
-	// 			allTweets.unshift(response.getReturnValue());
-	// 			component.set("v.tweetArray", allTweets);
- //                // add tweet to array to be displayed
- //            } else {
- //            	var errors = response.getError();
- //                if (errors) {
- //                    if (errors[0] && errors[0].message) {
- //                        console.log("Error message: " +
- //                                 errors[0].message);
- //                    }
- //                } else {
- //                    console.log("Unknown error");
- //                }
-
- //            }
- //        });
- //        $A.enqueueAction(action);
-	// },
-
 	getAllTweetsByUser : function(component, event, helper) {
 		var action = component.get("c.getTweetsByUser");
 		action.setParams({
@@ -56,8 +29,8 @@
 		})
 		action.setCallback(this, function(response) {
             if (response.getState() === "SUCCESS") {
-                console.log("Server responded in get all tweets: ");
-                console.log(response.getReturnValue());
+                // console.log("Server responded in get all tweets: ");
+                // console.log(response.getReturnValue());
 
 
                 

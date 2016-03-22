@@ -38,7 +38,7 @@ public class AppIT extends TestCase {
         if (entity == null) {
             fail("Project page should have response");
         } else {
-            assertTrue("Hello response is wrong", EntityUtils.toString(entity).contains("Hello web, from the Aura sample app aura-test-app"));
+            assertTrue("Hello response is wrong", EntityUtils.toString(entity).contains("Hello!"));
         }
     }
 }

@@ -12,4 +12,6 @@
 			<twitter:tweetFeed />
 		</div>
 	</div>
+
+	<twitter:simpleRoutedPath />
 </aura:application>

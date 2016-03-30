@@ -1,4 +1,22 @@
 ({
+    initBody : function(component, event, helper) {
+        // add navbar
+
+        $A.createComponent(
+            "twitter:navbar",
+            {
+            },
+            function(newButton){
+                //Add the new button to the body array
+                if (component.isValid()) {
+                    var body = component.get("v.body");
+                    body.push(newButton);
+                    component.set("v.body", body);
+                }
+            }
+        );
+    },
+
     onLocationChange : function(component, event, helper) {
          console.log("Location change event: " + JSON.stringify(event));
          var token = event.getParam("token");

@@ -1,10 +1,13 @@
 <aura:component >
     <aura:handler event="aura:locationChange" action="{!c.onLocationChange}" />
 
+    <aura:handler name="init" value="{!this}" action="{!c.initBody}"/>
+
+
     <aura:attribute name="route" type="String" description="Regex that when matches the current location, will reveal the body" default="tweet"/>
     <aura:attribute name="component" type="String" description="namespace:componentName of the component to show when the route matches" default="twitter:navbar" />
 
-    <a href="http://localhost:8080/twitter/twitter.app#tweet=1">Go to tweet</a>
+    <!--a href="http://localhost:8080/twitter/twitter.app#tweet=1">Go to tweet</a-->
     {!v.body}
     <!--
     <aura:attribute name="matches" type="Boolean" access="private" description="Evaluated value for whether the route matches" />

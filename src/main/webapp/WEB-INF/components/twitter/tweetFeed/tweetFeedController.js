@@ -1,6 +1,7 @@
 ({
 	doInit : function(component, event, helper) {
 		helper.loadFeed(component, helper);
+		console.log("doinit in tweetFeedController.js");
 	},
 
 	receiveMessage : function(component, event, helper) {
